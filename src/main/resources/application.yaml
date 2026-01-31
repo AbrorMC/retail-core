@@ -1,6 +1,6 @@
 spring:
   application:
-    name: retail
+    name: core
 
   # JPA configuration
   datasource:
