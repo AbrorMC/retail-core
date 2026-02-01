@@ -7,9 +7,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import uz.uzumtech.core.dto.request.CategoryRequestDto;
-import uz.uzumtech.core.dto.response.CategoryResponseDto;
-import uz.uzumtech.core.dto.response.PageResponseDto;
+import uz.uzumtech.core.dto.request.CategoryRequest;
+import uz.uzumtech.core.dto.response.CategoryResponse;
+import uz.uzumtech.core.dto.response.PageResponse;
 import uz.uzumtech.core.entity.Category;
 import uz.uzumtech.core.exception.CategoryNotFoundException;
 import uz.uzumtech.core.mapper.CategoryMapper;
@@ -26,7 +26,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional(readOnly = true)
-    public PageResponseDto<CategoryResponseDto> getAll(Pageable request) {
+    public PageResponse<CategoryResponse> getAll(Pageable request) {
         Page<Category> page = categoryRepository.findAll(request);
 
         return categoryMapper.toPageResponse(page);
@@ -34,7 +34,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public CategoryResponseDto create(CategoryRequestDto request) {
+    public CategoryResponse create(CategoryRequest request) {
         var category = categoryMapper.toEntity(request);
         var result = categoryRepository.save(category);
 
@@ -42,6 +42,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         var category = categoryRepository
                 .findById(id)

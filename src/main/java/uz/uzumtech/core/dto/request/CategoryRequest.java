@@ -1,6 +1,6 @@
 package uz.uzumtech.core.dto.request;
 
-public record CategoryRequestDto(
+public record CategoryRequest(
         String name,
         String description
 ) {

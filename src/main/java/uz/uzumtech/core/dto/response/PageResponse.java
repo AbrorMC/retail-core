@@ -2,7 +2,7 @@ package uz.uzumtech.core.dto.response;
 
 import java.util.List;
 
-public record PageResponseDto<T> (
+public record PageResponse<T> (
         List<T> content,
         long totalElements,
         int totalPages,
