@@ -1,4 +1,7 @@
 package uz.uzumtech.core.repository;
 
-public interface IngredientRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import uz.uzumtech.core.entity.Ingredient;
+
+public interface IngredientRepository extends JpaRepository<Ingredient, Long> {
 }

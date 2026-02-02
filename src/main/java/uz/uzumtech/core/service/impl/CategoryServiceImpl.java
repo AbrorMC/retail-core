@@ -36,9 +36,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public CategoryResponse create(CategoryRequest request) {
         var category = categoryMapper.toEntity(request);
-        var result = categoryRepository.save(category);
 
-        return categoryMapper.toResponse(result);
+        return categoryMapper.toResponse(categoryRepository.save(category));
     }
 
     @Override
