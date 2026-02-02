@@ -13,5 +13,6 @@ public interface FoodService {
     FoodDetailsResponse get(Long id);
 
     FoodDetailsResponse create(FoodRequest request);
+    void delete(Long id);
 
 }

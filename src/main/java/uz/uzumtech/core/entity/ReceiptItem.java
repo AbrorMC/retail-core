@@ -9,20 +9,29 @@ import uz.uzumtech.core.constant.enums.UnitOfMeasure;
 
 import java.math.BigDecimal;
 
-@Embeddable
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "receipt_items", uniqueConstraints = @UniqueConstraint(columnNames = {"receipt_id", "ingredient_id"}))
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ReceiptItem {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ingredient_id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "receipt_id", nullable = false)
+    @Column(nullable = false)
+    Receipt receipt;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "ingredient_id", nullable = false)
+    @Column(nullable = false)
     Ingredient ingredient;
 
-    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
-    UnitOfMeasure measure;
-
+    @Column(nullable = false, precision = 19, scale = 2)
     BigDecimal quantity;
 }

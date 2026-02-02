@@ -1,4 +1,4 @@
 package uz.uzumtech.core.repository;
 
-public interface inventoryRepository {
+public interface InventoryRepository {
 }

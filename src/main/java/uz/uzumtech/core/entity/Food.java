@@ -8,8 +8,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -35,9 +33,10 @@ public class Food extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "category_id")
+    @Column(nullable = false)
     Category category;
 
-    @ElementCollection
-    @CollectionTable(name = "food_receipt_items", joinColumns = @JoinColumn(name = "food_id"))
-    List<ReceiptItem> receipt = new ArrayList<>();
+    @OneToOne(mappedBy = "food", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @Column(nullable = false)
+    Receipt receipt;
 }

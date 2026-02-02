@@ -38,4 +38,8 @@ public class FoodController {
                 .body(foodService.create(request));
     }
 
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        foodService.delete(id);
+    }
 }
