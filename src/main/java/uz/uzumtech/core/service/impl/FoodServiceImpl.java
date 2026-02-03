@@ -12,13 +12,16 @@ import uz.uzumtech.core.dto.response.FoodDetailsResponse;
 import uz.uzumtech.core.dto.response.FoodResponse;
 import uz.uzumtech.core.dto.response.PageResponse;
 import uz.uzumtech.core.entity.Food;
+import uz.uzumtech.core.entity.Price;
 import uz.uzumtech.core.exception.CategoryNotFoundException;
 import uz.uzumtech.core.exception.FoodNotFoundException;
 import uz.uzumtech.core.mapper.FoodMapper;
 import uz.uzumtech.core.repository.CategoryRepository;
 import uz.uzumtech.core.repository.FoodRepository;
+import uz.uzumtech.core.repository.PriceRepository;
 import uz.uzumtech.core.service.FoodService;
 
+import java.math.BigDecimal;
 import java.util.stream.IntStream;
 
 @Service
@@ -29,6 +32,7 @@ public class FoodServiceImpl implements FoodService {
     FoodMapper foodMapper;
     FoodRepository foodRepository;
     CategoryRepository categoryRepository;
+    PriceRepository priceRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -45,7 +49,11 @@ public class FoodServiceImpl implements FoodService {
                 .findById(id)
                 .orElseThrow(() -> new FoodNotFoundException(id.toString()));
 
-        return foodMapper.toDetailsResponse(food);
+        var price = priceRepository
+                .getCurrentPriceByFoodId(id)
+                .orElseThrow();
+
+        return foodMapper.toDetailsResponse(food, price.getPrice());
     }
 
     @Override
@@ -67,7 +75,19 @@ public class FoodServiceImpl implements FoodService {
 
         food.setReceipt(receipt);
 
-        return foodMapper.toDetailsResponse(foodRepository.save(food));
+        var savedFood = foodRepository.save(food);
+        var price = createPrice(savedFood, request.price());
+
+        return foodMapper.toDetailsResponse(savedFood, price.getPrice());
+    }
+
+    @Transactional
+    public Price createPrice(Food food, BigDecimal price) {
+        var priceObj = new Price();
+        priceObj.setFood(food);
+        priceObj.setPrice(price);
+
+        return priceRepository.save(priceObj);
     }
 
     @Override
@@ -82,5 +102,11 @@ public class FoodServiceImpl implements FoodService {
         if (receipt != null) {
             receipt.setActive(false);
         }
+
+        var price = priceRepository
+                .getCurrentPriceByFoodId(id)
+                .orElseThrow();
+
+        price.setActive(false);
     }
 }

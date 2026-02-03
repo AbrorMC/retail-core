@@ -26,11 +26,6 @@ public class Food extends BaseEntity {
     @Column(nullable = false)
     String name;
 
-    @NotNull
-    @Positive(message = "Цена должна быть больше 0!")
-    @Column(nullable = false)
-    BigDecimal price;
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "category_id")
     @Column(nullable = false)

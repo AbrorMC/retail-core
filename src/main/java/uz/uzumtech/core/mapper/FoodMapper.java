@@ -10,16 +10,20 @@ import uz.uzumtech.core.dto.response.FoodDetailsResponse;
 import uz.uzumtech.core.dto.response.FoodResponse;
 import uz.uzumtech.core.dto.response.PageResponse;
 import uz.uzumtech.core.entity.Food;
+import uz.uzumtech.core.entity.Price;
 import uz.uzumtech.core.entity.Receipt;
 import uz.uzumtech.core.entity.ReceiptItem;
+
+import java.math.BigDecimal;
 
 @Mapper(config = GlobalMapperConfig.class)
 public interface FoodMapper {
 
     FoodResponse toResponse(Food food);
 
-    @Mapping(target = "category", source = "category.name")
-    FoodDetailsResponse toDetailsResponse(Food food);
+    @Mapping(target = "category", source = "food.category.name")
+    @Mapping(target = "price", expression = "price")
+    FoodDetailsResponse toDetailsResponse(Food food, BigDecimal price);
 
     @Mapping(target = "categoryId", ignore = true)
     @Mapping(target = "receipt", source = "request")
