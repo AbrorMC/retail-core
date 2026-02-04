@@ -1,6 +1,5 @@
 package uz.uzumtech.core.service;
 
-import org.springframework.http.ResponseEntity;
 import uz.uzumtech.core.dto.request.IngredientRequest;
 import uz.uzumtech.core.dto.response.IngredientResponse;
 
