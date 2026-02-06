@@ -1,35 +1,37 @@
 package uz.uzumtech.core.mapper;
 
-import org.mapstruct.AfterMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 import org.springframework.data.domain.Page;
 import uz.uzumtech.core.dto.request.FoodRequest;
 import uz.uzumtech.core.dto.response.FoodDetailsResponse;
 import uz.uzumtech.core.dto.response.FoodResponse;
 import uz.uzumtech.core.dto.response.PageResponse;
 import uz.uzumtech.core.entity.Food;
-import uz.uzumtech.core.entity.Price;
 import uz.uzumtech.core.entity.Receipt;
 import uz.uzumtech.core.entity.ReceiptItem;
 
 import java.math.BigDecimal;
 
-@Mapper(config = GlobalMapperConfig.class)
+@Mapper(config = GlobalMapperConfig.class, builder = @Builder(disableBuilder = true))
 public interface FoodMapper {
 
     FoodResponse toResponse(Food food);
 
     @Mapping(target = "category", source = "food.category.name")
-    @Mapping(target = "price", expression = "price")
+    @Mapping(target = "price", source = "price")
+    @Mapping(target = "receipt", source = "food.receipt.items")
     FoodDetailsResponse toDetailsResponse(Food food, BigDecimal price);
 
-    @Mapping(target = "categoryId", ignore = true)
+    @Mapping(target = "ingredient", source = "ingredient.name")
+    @Mapping(target = "measure", source = "ingredient.measure")
+    FoodDetailsResponse.ReceiptItem toReceiptItemResponse(ReceiptItem item);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "category", ignore = true)
     @Mapping(target = "receipt", source = "request")
     Food toEntity(FoodRequest request);
 
-    @Mapping(target = "items", source = "request")
+    @Mapping(target = "items", source = "request.receipt")
     @Mapping(target = "food", ignore = true)
     @Mapping(target = "id", ignore = true)
     Receipt toReceipt(FoodRequest request);

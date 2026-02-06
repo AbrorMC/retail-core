@@ -3,7 +3,7 @@ package uz.uzumtech.core.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.JdbcType;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import uz.uzumtech.core.constant.enums.TransactionType;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@SuperBuilder
 @Table(name = "inventories")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Inventory extends BaseEntity {

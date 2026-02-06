@@ -3,6 +3,7 @@ package uz.uzumtech.core.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 @Table(name = "receipts")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Receipt extends BaseEntity {
@@ -22,11 +24,10 @@ public class Receipt extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "food_id", nullable = false)
-    @Column(nullable = false)
     Food food;
 
+    @Builder.Default
     @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL)
-    @Column(nullable = false)
     List<ReceiptItem> items = new ArrayList<>();
 
     public void addItem(ReceiptItem item) {

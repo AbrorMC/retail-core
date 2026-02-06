@@ -5,7 +5,6 @@ import uz.uzumtech.core.dto.request.FoodRequest;
 import uz.uzumtech.core.dto.response.FoodDetailsResponse;
 import uz.uzumtech.core.dto.response.FoodResponse;
 import uz.uzumtech.core.dto.response.PageResponse;
-import uz.uzumtech.core.entity.Food;
 
 public interface FoodService {
 

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 
@@ -12,6 +13,7 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@SuperBuilder
 @Table(name = "finances")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Finance extends BaseEntity {
